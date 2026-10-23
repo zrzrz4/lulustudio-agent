@@ -1,0 +1,43 @@
+{
+  "episode_id": "demo-001",
+  "title": "噜噜和噜妹的远距离招手测试",
+  "budget": 5,
+  "shots": [
+    {
+      "shot_id": "demo-001-sc01-sh01",
+      "scene_id": "demo-001-sc01",
+      "prompt": "噜噜和噜妹站在草地两侧互相招手，固定画风，角色清晰",
+      "duration_ms": 8000,
+      "character_instances": [
+        {
+          "instance_id": "lulu_left",
+          "identity_id": "lulu",
+          "region": "left",
+          "action": "wave",
+          "reference_asset_id": "lulu_ref_front"
+        },
+        {
+          "instance_id": "lumei_right",
+          "identity_id": "lumei",
+          "region": "right",
+          "action": "look_at_left",
+          "reference_asset_id": "lumei_ref_front"
+        }
+      ],
+      "dialogue": [
+        {
+          "text": "噜妹，你在那边吗？",
+          "speaker_instance_id": "lulu_left",
+          "voice_id": "lulu_voice_v1",
+          "emotion": "happy",
+          "target_duration_ms": 2500
+        }
+      ],
+      "expected_instance_count": 2,
+      "forbid_extra_subjects": true,
+      "parameters": {
+        "seed": 42
+      }
+    }
+  ]
+}
