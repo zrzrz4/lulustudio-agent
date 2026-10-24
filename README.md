@@ -59,11 +59,11 @@ bash scripts/smoke_test.sh
 创建演示任务：
 
 ```bash
-curl -X POST http://127.0.0.1:8010/episodes/demo \
+curl -X POST http://127.0.0.1:8010/episodes \
   -H 'Content-Type: application/json' \
   -d @examples/demo_episode.json
 
-curl -X POST http://127.0.0.1:8010/episodes/demo/run
+curl -X POST http://127.0.0.1:8010/episodes/demo-001/run
 ```
 
 默认 `LULU_DRY_RUN=true`，不会消耗真实模型额度。切换真实 ComfyUI 前，需要导出 API-format workflow JSON，放入 `workflows/`，再把 `LULU_DRY_RUN=false`。
