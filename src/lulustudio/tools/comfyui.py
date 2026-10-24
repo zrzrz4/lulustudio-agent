@@ -51,7 +51,12 @@ class ComfyUITool(Tool):
             queued = self._json_request("POST", "/prompt", {"prompt": workflow, "client_id": client_id})
             prompt_id = queued["prompt_id"]
             history = self._wait_for_history(prompt_id)
+            execution_error = self._execution_error(history)
+            if execution_error:
+                return self._error(execution_error, started)
             artifacts = self._collect_artifacts(history)
+            if not artifacts:
+                return self._error("ComfyUI completed without a saved artifact", started)
             return ToolResult(
                 success=True,
                 artifacts=artifacts,
@@ -89,8 +94,27 @@ class ComfyUITool(Tool):
             for key in ("images", "audio", "gifs", "videos"):
                 for index, item in enumerate(output.get(key, [])):
                     if isinstance(item, dict) and "filename" in item:
-                        artifacts[f"{node_id}.{key}.{index}"] = item["filename"]
+                        subfolder = str(item.get("subfolder", "")).strip("/\\")
+                        filename = str(item["filename"])
+                        artifacts[f"{node_id}.{key}.{index}"] = (
+                            f"{subfolder}/{filename}" if subfolder else filename
+                        )
         return artifacts
+
+    @staticmethod
+    def _execution_error(history: dict[str, Any]) -> str | None:
+        status = history.get("status", {})
+        for message in status.get("messages", []):
+            if not isinstance(message, list) or len(message) < 2 or message[0] != "execution_error":
+                continue
+            detail = message[1] if isinstance(message[1], dict) else {}
+            node = detail.get("node_id", "unknown")
+            node_type = detail.get("node_type", "unknown")
+            reason = detail.get("exception_message", "unknown error")
+            return f"ComfyUI execution failed at node {node} ({node_type}): {reason}"
+        if status.get("status_str") == "error":
+            return "ComfyUI execution failed"
+        return None
 
     @staticmethod
     def _error(message: str, started: float) -> ToolResult:

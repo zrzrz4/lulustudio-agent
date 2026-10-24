@@ -1,0 +1,35 @@
+{
+  "episode_id": "lulu-flux-baseline-001",
+  "title": "噜噜角色定帧基线",
+  "budget": 3.0,
+  "shots": [
+    {
+      "shot_id": "lulu-flux-baseline-001-sh01",
+      "scene_id": "lulu-character-anchor",
+      "prompt": "Lulu, a cute chubby yellow-orange capybara character, full body, a small orange fruit centered on the head, large rounded orange muzzle, tiny rounded ears, short arms and legs, wearing plain orange shorts with a white drawstring, standing alone, front three-quarter view, warm soft studio lighting, clean simple pastel background, high quality stylized 3D animation, soft short fur detail, consistent facial proportions, no text, no watermark, exactly one character",
+      "duration_ms": 1000,
+      "character_instances": [
+        {
+          "instance_id": "lulu_main",
+          "identity_id": "lulu",
+          "region": "center",
+          "action": "stand",
+          "reference_asset_id": "lulu_lora_v1"
+        }
+      ],
+      "expected_instance_count": 1,
+      "forbid_extra_subjects": true,
+      "workflow_path": "workflows/flux_lulu_t2i_api.json",
+      "parameters": {
+        "seed": 20261024,
+        "WIDTH": 768,
+        "HEIGHT": 1152,
+        "LORA_STRENGTH": 0.8,
+        "GUIDANCE": 3.5,
+        "STEPS": 25,
+        "FILENAME_PREFIX": "LuluStudio/flux_lulu_baseline",
+        "estimated_cost": 0.5
+      }
+    }
+  ]
+}
